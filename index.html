@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Codeboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div class="code-editor">
+        <form id="convert" class="control-actions">
+            <select id="languages" required onchange="changeLanguage()">
+                <option value="">Language</option>
+                <option value="html">HTML</option>
+                <option value="html">CSS</option>
+                <option value="html">JS</option>
+                <option value="c">C</option>
+                <option value="cpp">C++</option>
+                <option value="cs">C#</option>
+                <option value="php">PHP</option>
+                <option value="python">Python</option>
+                <option value="node">Node JS</option>
+                <option value="json">Json</option>
+                <option value="xml">Xml</option>
+            </select>
+            <button class="btn" type="submit">Execute</button>
+        </form>
+        <div class="row">
+            <div class="editor-block" id="editor"></div>
+            <div class="output-block">
+                <div id="loader"></div>
+                <iframe id="output"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script src="./libs/ace/ace.js"></script>
+    <script src="./libs/ace/theme-monokai.js"></script>
+    <script>
+        let editor;
+
+        window.onload = function () {
+            editor = ace.edit("editor");
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/html");
+        };
+
+        function changeLanguage() {
+            let language = document.getElementById("languages").value;
+
+            if (language == "c" || language == "cpp") editor.session.setMode("ace/mode/c_cpp");
+            else if (language == "php") editor.session.setMode("ace/mode/php");
+            else if (language == "python") editor.session.setMode("ace/mode/python");
+            else if (language == "html") editor.session.setMode("ace/mode/html");
+            else if (language == "cs") editor.session.setMode("ace/mode/csharp");
+            else if (language == "json") editor.session.setMode("ace/mode/json");
+            else if (language == "xml") editor.session.setMode("ace/mode/xml");
+        }
+
+        document.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const target = document.getElementById("convert");
+            const loader = document.getElementById("loader");
+            const form = new FormData(target);
+
+            const language = document.getElementById("languages").value;
+            const code = editor.getSession().getValue();
+            const outputFrame = document.getElementById("output");
+            loader.innerHTML = "Loading...";
+
+            form.append("code", code)
+            form.append("language", language)
+
+            if (language === "html" || language === "xml") {
+                outputFrame.contentDocument.open();
+                outputFrame.contentDocument.write(code);
+                outputFrame.contentDocument.close();
+                loader.innerHTML = "";
+            } else {
+                fetch("./compile.php", {
+                    method: "POST",
+                    body: form,
+                })
+                    .then((data) => data.text())
+                    .then((data) => {
+                        outputFrame.contentDocument.open();
+                        outputFrame.contentDocument.write(data);
+                        outputFrame.contentDocument.close();
+                        loader.innerHTML = "";
+                    });
+            }
+        });
+    </script>
+</body>
+
+</html>

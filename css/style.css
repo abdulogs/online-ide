@@ -1,0 +1,89 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.code-editor {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.code-editor .control-actions {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.code-editor .control-actions select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+.code-editor .control-actions .btn {
+  background-color: dodgerblue;
+  cursor: pointer;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  margin-left: 5px;
+  border-radius: 5px;
+  color: white;
+}
+.code-editor .control-actions .btn:hover {
+  background-color: #1d80e4;
+}
+.code-editor .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: inherit;
+  padding: 10px;
+  overflow: auto;
+}
+@media (max-width: 500px) {
+  .code-editor .row {
+    flex-direction: column;
+  }
+}
+.code-editor .row .editor-block {
+  width: 80%;
+  height: 100%;
+  border-radius: 5px;
+  margin-right: 10px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  font-size: 20px;
+}
+@media (max-width: 500px) {
+  .code-editor .row .editor-block {
+    margin: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+}
+.code-editor .row .output-block {
+  width: 80%;
+  height: 100%;
+  background-color: white;
+  margin-left: 10px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  position: relative;
+}
+.code-editor .row .output-block #loader {
+  position: absolute;
+  left: 50%;
+  transform: translate(50%, 50%);
+}
+.code-editor .row .output-block #output {
+  height: 100%;
+  width: 100%;
+  border: none;
+  margin: 0;
+}
+@media (max-width: 500px) {
+  .code-editor .row .output-block {
+    margin: 0px;
+    width: 100%;
+  }
+}/*# sourceMappingURL=style.css.map */
